@@ -1,13 +1,14 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { ModuleFederationPlugin } = require("webpack").container;
 const path = require("path");
-const deps = require("./package.json").dependencies;
 module.exports = {
-  entry: "./src/index",
+  entry: "./src/bootstrap",
   mode: "development",
   devServer: {
-    contentBase: path.join(__dirname, "dist"),
-    port: 3001,
+    static: {
+      directory: path.join(__dirname, 'dist')
+    },
+    port: 3004,
   },
   output: {
     publicPath: "auto",
@@ -29,7 +30,7 @@ module.exports = {
       name: "app1",
       filename: "remoteEntry.js",
       remotes: {
-        app2: "app2@http://localhost:3002/remoteEntry.js",
+        app2: "app2@http://localhost:3005/remoteEntry.js",
       },
       exposes: {
         "./Button": "./src/Button",
@@ -37,17 +38,9 @@ module.exports = {
       // sharing code based on the installed version, to allow for multiple vendors with different versions
       shared: [
         {
-          ...deps,
-          react: {
-            // eager: true,
-            singleton: true,
-            requiredVersion: deps.react,
-          },
-          "react-dom": {
-            // eager: true,
-            singleton: true,
-            requiredVersion: deps["react-dom"],
-          },
+          react: { singleton: true, requiredVersion: false },
+          "react-dom": { singleton: true, requiredVersion: false },
+          "react-redux": { singleton: true, requiredVersion: false },
         },
       ],
     }),

@@ -1,0 +1,40 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "SDK Server Program Attach",
+      "type": "node",
+      "request": "attach",
+      "restart": true,
+      "sourceMaps": false,
+      "port": 9229,
+      "address": "localhost",
+      "localRoot": "${workspaceFolder}",
+      "remoteRoot": "/app",
+      "protocol": "inspector"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "SDK Server Program Launch",
+      "skipFiles": ["<node_internals>/**"],
+      "resolveSourceMapLocations": ["${workspaceFolder}/**", "!**/node_modules/**", "!node:internal/**"],
+      "program": "${workspaceFolder}/src/index.js",
+      "runtimeArgs": ["-r", "esm"],
+      // "runtimeArgs": ["--es-module-specifier-resolution=node"],
+      "runtimeVersion": "14.17.3",
+      "env": {
+        "REDIS_PORT": "63790",
+        "REDIS_HOST": "127.0.0.1",
+        "REDIS_DB_NUMER": "0",
+
+        "MONGO_DB": "project",
+        "MONGO_HOST": "127.0.0.1",
+        "MONGO_PORT": "27010"
+      }
+    }
+  ]
+}
